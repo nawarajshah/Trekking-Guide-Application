@@ -1,0 +1,16 @@
+﻿@model TrekkingGuideApp.Models.Place
+@{
+	ViewData["Title"] = Model.Title;
+}
+
+<div class="content-box mt-4">
+	<h1>@Model.Title</h1>
+	<hr />
+	@if (!string.IsNullOrEmpty(Model.PhotoPath))
+	{
+		<img src="@Url.Action("GetImage", "Place", new { fileName = Model.PhotoPath })" alt="@Model.Title" class="img-fluid mb-3" style="max-height: 400px; object-fit: cover;" />
+	}
+	<div class="blog-content">
+		@Html.Raw(Model.Description)
+	</div>
+</div>

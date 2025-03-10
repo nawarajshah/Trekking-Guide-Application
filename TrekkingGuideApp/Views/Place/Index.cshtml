@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Place>
+@{
+	ViewData["Title"] = "Places";
+}
+
+<div class="content-box">
+	<h2>Places</h2>
+	<p>
+		<a asp-action="Create" class="btn btn-success btn-sm">Create New Place</a>
+	</p>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Description</th>
+				<th>Photo</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var place in Model)
+			{
+				<tr>
+					<td>@place.Title</td>
+					<td>@Html.Raw(GetSnippet(place.Description, 150))</td>
+					<td>
+						@if (!string.IsNullOrEmpty(place.PhotoPath))
+						{
+							<img src="@Url.Action("GetImage", "Place", new { fileName = place.PhotoPath })" alt="Photo" style="max-width:100px;" />
+						}
+					</td>
+					<td>
+						<a asp-action="Edit" asp-route-id="@place.Id" class="btn btn-primary btn-sm">Edit</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@functions {
+	// helper method to strip HTML tags and return a text snippet.
+	public string GetSnippet(string html, int maxLength)
+	{
+		if (string.IsNullOrEmpty(html))
+		{
+			return "";
+		}
+		// remove any HTML tags using Regex
+		var planText = System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", string.Empty);
+		if (planText.Length > maxLength)
+		{
+			return planText.Substring(0, maxLength) + "...";
+		}
+		return planText;
+	}
+}

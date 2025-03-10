@@ -1,0 +1,48 @@
+﻿@using HashidsNet
+@model IEnumerable<TrekkingGuideApp.Models.Place>
+
+@{
+    ViewData["Title"] = "Home Page";
+    var hashids = new Hashids("my-secret-salt", 8);
+}
+
+<div class="content-box">
+    <div class="row">
+        @foreach (var place in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    @if (!string.IsNullOrEmpty(place.PhotoPath))
+                    {
+                        <img class="card-img-top"
+                            src="@Url.Action("GetImage", "Place", new { fileName = place.PhotoPath })" 
+                            style="height:200px; object-fit:cover;" />
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@place.Title</h5>
+                        <p class="card-text">@Html.Raw(GetSnippet(place.Description, 150))</p>
+                        <a href="@Url.Action("Details", "Place", new { id = hashids.Encode(place.Id) })" class="btn btn-success btn-sm">Read More</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    // helper method to strip HTML tags and return a text snippet.
+    public string GetSnippet(string html, int maxLength)
+    {
+        if (string.IsNullOrEmpty(html))
+        {
+            return "";
+        }
+        // remove any HTML tags using Regex
+        var planText = System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", string.Empty);
+        if (planText.Length > maxLength)
+        {
+            return planText.Substring(0, maxLength) + "...";
+        }
+        return planText;
+    }
+}

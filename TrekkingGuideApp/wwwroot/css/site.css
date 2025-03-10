@@ -1,0 +1,99 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/*.footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    text-align:center;
+}*/
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/*Container form standard pages (like Home, Privacy, etc.)*/
+.main-container {
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/*Resuable white content box with suitable shadows, matching account-box style*/
+.content-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 2rem;
+    opacity: 0.95;
+}
+
+/*table styling form user lists, etc.*/
+.table-custom {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-custom thead {
+    background-color: #f2f2f2;
+}
+
+.table-custom th,
+.table-custom td {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/*.btn {
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}*/
+
+/*NavBar styling stop complement thead rest of the design (optinal) */
+.navbar-custom {
+    background-color: #343e40;
+    color: #ffffff;
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav .nav-link {
+    color: #ffffff !important;
+}
+.navbar-custom .navbar-nav .nav-link:hover {
+    color: #dddddd !important;
+}
+
+button {
+    margin: 10px;
+}

@@ -1,0 +1,100 @@
+﻿@using TrekkingGuideApp.ViewModels
+@model IEnumerable<TrekkingGuideApp.ViewModels.UserRolesViewModel>
+
+@{
+	ViewData["Title"] = "User Management";
+}
+
+<div class="content-box">
+	<div class="row">
+		@* Left: Edit Form *@
+		<div class="col-md-6" id="userFormContainer">
+			@* Initially, render an empty from *@
+			@await Html.PartialAsync("_UserFormPartial", new EditUserRolesViewModel 
+			{ 
+				AvailableRoles = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>() 
+			})
+		</div>
+
+		@* Right: User List *@
+		<div class="col-md-6" id="userListContainer">
+			@await Html.PartialAsync("_UserListPartial", Model)
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		function updateUser() {
+			// Serialize the form data (the form should have an id, e.g., "UserForm")
+			var formData = $("#userForm").serialize();
+
+			$.ajax({
+				url: '@Url.Action("Edit", "UserManagement")',
+				type: 'POST',
+				data: formData,
+				success: function (result) {
+					// clearing and reseting
+					$("#updateButton").prop("disabled", true);
+					$("#deleteButton").prop("disabled", true);
+					$(".form-control").prop("disabled", true);
+					$("#Email").val("");
+					$("#SelectedRole").val("");
+
+					// 'result' is the updated user list partial view (returned by your Edit action)
+					// Replace the contents of the user list container with the new HTML
+					$("#userListContainer").html(result);
+				},
+				error: function (xhr) {
+					alert("Error updating user: " + xhr.responseText);
+				}
+			});
+		}
+
+		// deleting user via AJAX
+		function deleteUser(userId) {
+			if (confirm("Are you sure you want to delete this user?")) {
+				$.ajax({
+					url: '@Url.Action("DeleteUser", "UserManagement")',
+					type: 'POST',
+					data: { userId: userId },
+					success: function (result) {
+						// clearing and reseting
+						$("#updateButton").prop("disabled", true);
+						$("#deleteButton").prop("disabled", true);
+						$(".form-control").prop("disabled", true);
+						$("#Email").val("");
+						$("#SelectedRole").val("");
+
+						$("#userListContainer").html(result);
+					},
+					error: function (xhr) {
+						alert("Error deleting user: " + xhr.responseText);
+					}
+				});
+			}
+		}
+		// when a user row is clicked, fetch the user details via AJAX
+		function selectUser(userId) {
+			// make an ajax request to fetch the partial
+			$.ajax({
+				url: '@Url.Action("GetUserForm", "UserManagement")',
+				type: 'GET',
+				data: { userId: userId },
+				success: function (result) {
+					// replace the left-side container html with the partial view
+					$("#userFormContainer").html(result);
+
+					// enable the buttons after data is loaded
+					$("#updateButton").prop("disabled", false);
+					$("#deleteButton").prop("disabled", false);
+					$(".form-control").prop("disabled", false);
+				},
+				error: function (xhr) {
+					alert("Error fetching user form: " + xhr.responseText);
+				}
+			});
+		}
+
+	</script>
+}

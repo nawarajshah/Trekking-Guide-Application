@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TrekkingGuideApp</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TrekkingGuideApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TrekkingGuideApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @* // show the user management link only for admin or superadmin *@
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Admin") || User.IsInRole("SuperAdmin")))
+                        {
+                            @* LinkedList visible to all authenticated users, e.g., view trekking places *@
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Place" asp-action="Index">Places</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="UserManagement" asp-action="Index">User             Management</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Index">My Profile</a>
+                        </li>
+                        @await Html.PartialAsync("_LoginPartial")
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="main-container">
+        <main role="main" class="pb-3"> 
+            @RenderBody()
+         </main> 
+    </div>
+
+    @* <footer class="border-top footer text-muted"> *@
+    @*     <div class="container"> *@
+    @*         &copy; 2025 - TrekkingGuideApp *@
+    @*     </div> *@
+    @* </footer> *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

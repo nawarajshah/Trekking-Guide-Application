@@ -1,0 +1,70 @@
+﻿@model TrekkingGuideApp.ViewModels.PlaceViewModel
+
+@{
+	ViewData["Title"] = "Edit Trekking Place";
+}
+
+<div class="content-box">
+	<h2>Edit Place</h2>
+	<hr />
+	<form asp-action="Edit" method="post" enctype="multipart/form-data">
+		<input type="hidden" asp-for="Id" />
+		<input type="hidden" asp-for="ExistingPhotoPath" />
+		<div class="form-group">
+			<h4><label asp-for="Title"></label></h4>
+			<input asp-for="Title" class="form-control" />
+			<span asp-validation-for="Title" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<h4><label asp-for="Description"></label></h4>
+			@* The textarea that will be converted to a WYSIWYG editor *@
+			<textarea asp-for="Description" id="Description" class="form-control"></textarea>
+			<span asp-validation-for="Description" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<h4><label>Current Photo</label></h4><br />
+			@if (!string.IsNullOrEmpty(Model.ExistingPhotoPath))
+			{
+				<img src="@Model.ExistingPhotoPath" alt="Place Photo" style="max-width: 200px;" />
+			}
+			else
+			{
+				<p>No photo available.</p>
+			}
+		</div>
+		<div class="form-group">
+			<h4><label asp-for="PhotoPath">Upload New Photo</label></h4>
+			<input asp-for="PhotoPath" type="file" class="form-control" />
+			<span asp-validation-for="PhotoPath" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-success btn-sm">Update</button>
+	</form>
+</div>
+
+@section Scripts {
+	@* Include TinyMCE from the CDN *@
+	<script src="https://cdn.tiny.cloud/1/y2fo129225vinfxtuyrulx4ixsedtguywwl72dqp1bsyb5dr/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+		tinymce.init({
+			selector: '#Description',
+			menumber: false,
+			plugins: 'link image code lists',
+			toolbar: 'undo redo | styleselect | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | code'
+		});
+
+		function previewImage(event) {
+			var input = event.target;
+			if (input.files && input.files[0])
+			{
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					var preview = document.getElementById('imgPreview');
+					preview.src = e.target.result;
+
+					preview.style.display = 'block'; // show the img
+				}
+				reader.readAsDataURL(input.files[0]); // convert to data URL
+			}
+		}
+	</script>
+}

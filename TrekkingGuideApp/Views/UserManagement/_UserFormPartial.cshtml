@@ -1,0 +1,38 @@
+﻿@model TrekkingGuideApp.ViewModels.EditUserRolesViewModel
+
+<div class="card">
+	<div class="card-header">
+		<h4>User Details</h4>
+	</div>
+	<div class="card-body">
+		<form id="userForm">
+			<input type="hidden" asp-for="UserId" />
+			<div class="form-group">
+				<label asp-for="Email"></label>
+				<input asp-for="Email" class="form-control" readonly="readonly" disabled/>
+			</div>
+			<div class="form-group">
+				<label asp-for="SelectedRole"></label>
+				<select asp-for="SelectedRole" class="form-control" asp-items="Model.AvailableRoles" disabled>
+					<option value="">-- Select Role --</option>
+				</select>
+			</div>
+			<button 
+				type="button" 
+				id="updateButton" 
+				class="btn btn-success btn-sm" 
+				disabled
+				onclick="updateUser()">
+				Update
+			</button>
+			<button 
+				type="button" 
+				id="deleteButton" 
+				class="btn btn-danger btn-sm" 
+				disabled 
+				onclick="deleteUser('@Model.UserId')">
+				Delete
+			</button>
+		</form>
+	</div>
+</div>
