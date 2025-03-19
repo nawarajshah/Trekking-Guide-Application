@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <h2>Create New Place</h2>
+    <form (ngSubmit)="createPlace()" #createForm="ngForm">
+        <div class="mb-3">
+            <label>Title</label>
+            <input type="text" name="title" 
+                [(ngModel)]="title" 
+                class="form-control" required />
+        </div>
+        <div class="mb-3">
+            <label>Description</label>
+            <editor
+                apiKey="y2fo129225vinfxtuyrulx4ixsedtguywwl72dqp1bsyb5dr"
+                [init]="init"
+            />
+        </div>
+
+        <div class="mb-3">
+            <label>Photo Path</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event)" />
+            <div *ngIf="photoPreview" class="mt-2">
+                <img [src]="photoPreview" alt="Preview" style="max-width: 200px; margin-top: 10px; object-fit: cover;" />
+            </div>
+        </div>
+
+        <!-- Photo upload would required a seperate approace. for simplicity, skip it or do base64. -->
+         <button type="submit" class="btn btn-success btn-sm" [disabled]="!createForm.valid">Create</button>
+    </form>
+</div>

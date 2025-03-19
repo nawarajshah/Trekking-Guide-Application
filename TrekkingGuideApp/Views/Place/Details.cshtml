@@ -13,4 +13,22 @@
 	<div class="blog-content">
 		@Html.Raw(Model.Description)
 	</div>
+	<hr />
+	<h3>Guide Itineraries</h3>
+	@if (Model.Itineraries != null && Model.Itineraries.Any())
+	{
+		<ul>
+			@foreach (var itinerary in Model.Itineraries)
+			{
+				<li>
+					<p>@itinerary.ItineraryDetails</p>
+					<small>Posted on @itinerary.CreateDate.ToShortDateString()</small>
+				</li>
+			}
+		</ul>
+	}
+	else
+	{
+		<p>No itineraries avaliable for this place.</p>
+	}
 </div>

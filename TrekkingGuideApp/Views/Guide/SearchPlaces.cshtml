@@ -1,0 +1,53 @@
+﻿@model IEnumerable<TrekkingGuideApp.Models.Place>
+
+@{
+	ViewData["Title"] = "Search Places";
+}
+
+<h2>Search Places</h2>
+
+<form method="get" asp-action="SearchPlaces">
+	<div class="form-group">
+		<input type="text" name="query" class="form-control" placeholder="Enter place name or keyword..." value="@ViewContext.HttpContext.Request.Query["query"]" />
+	</div>
+	<button type="submit" class="btn btn-primary btn-sm">Search</button>
+</form>
+
+<hr />
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Add Itinerary</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var place in Model)
+		{
+			<tr>
+				<td>@place.Title</td>
+				<td>
+					@Html.Raw(GetSnippet(place.Description, 100))
+				</td>
+				<td>
+					<a asp-action="AddItinerary" asp-route-placeId="@place.Id" class="btn btn-success btn-sm">Add Itinerary</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@functions {
+	public string GetSnippet(string html, int maxLength)
+	{
+		if (string.IsNullOrEmpty(html))
+			return "";
+
+		var plainText = System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", "");
+		if (plainText.Length > maxLength)
+			return plainText.Substring(0, maxLength) + "...";
+		return plainText;
+	}
+}

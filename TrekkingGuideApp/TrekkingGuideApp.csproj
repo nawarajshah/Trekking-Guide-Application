@@ -16,6 +16,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NUlid" Version="1.7.2" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.0.36" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Angular\" />
   </ItemGroup>
 
 </Project>

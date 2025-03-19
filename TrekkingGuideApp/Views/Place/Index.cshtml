@@ -1,57 +1,52 @@
-﻿@model IEnumerable<Place>
+﻿@using HashidsNet
+@model IEnumerable<Place>
 @{
 	ViewData["Title"] = "Places";
+	var hashids = new Hashids("my-secret-salt", 8);
 }
 
 <div class="content-box">
-	<h2>Places</h2>
 	<p>
 		<a asp-action="Create" class="btn btn-success btn-sm">Create New Place</a>
 	</p>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Description</th>
-				<th>Photo</th>
-				<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var place in Model)
-			{
-				<tr>
-					<td>@place.Title</td>
-					<td>@Html.Raw(GetSnippet(place.Description, 150))</td>
-					<td>
-						@if (!string.IsNullOrEmpty(place.PhotoPath))
-						{
-							<img src="@Url.Action("GetImage", "Place", new { fileName = place.PhotoPath })" alt="Photo" style="max-width:100px;" />
-						}
-					</td>
-					<td>
-						<a asp-action="Edit" asp-route-id="@place.Id" class="btn btn-primary btn-sm">Edit</a>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+	<div class="row">
+		@foreach (var place in Model)
+		{
+			<div class="col-md-4">
+				<div class="card mb-4">
+					@if (!string.IsNullOrEmpty(place.PhotoPath))
+					{
+						<img class="card-img-top" src="@Url.Action("GetImage", "Place", new { fileName = place.PhotoPath })" alt="@place.Title" style="height: 200px; object-fit:cover;" />
+					}
+					<div class="card-body">
+						<h5 class="card-title">@place.Title</h5>
+						<p class="card-text">@Html.Raw(GetSnippet(place.Description,150))</p>
+						<a href="@Url.Action("Edit", "Place", new { id = place.Id })" class="btn btn-primary btn-sm">Edit</a>
+						<form asp-action="Delete" asp-controller="Place" asp-route-id="@place.Id" method="post" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this place?');">
+							<button type="submit" class="btn btn-danger btn-sm">Delete</button>
+						</form>
+						<a href="@Url.Action("Details", "Place", new { id = hashids.Encode(place.Id) })" class="btn btn-secondary btn-sm">Read More</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
 </div>
 
-@functions {
-	// helper method to strip HTML tags and return a text snippet.
+@functions { 
+	// helper method to strip HTML tags and return a text snippet. 
 	public string GetSnippet(string html, int maxLength)
-	{
-		if (string.IsNullOrEmpty(html))
+	{ 
+		if (string.IsNullOrEmpty(html)) 
 		{
-			return "";
-		}
-		// remove any HTML tags using Regex
+			return ""; 
+		} 
+		// remove any HTML tags using Regex 
 		var planText = System.Text.RegularExpressions.Regex.Replace(html, "<.*?>", string.Empty);
-		if (planText.Length > maxLength)
-		{
+		if (planText.Length > maxLength) 
+		{ 
 			return planText.Substring(0, maxLength) + "...";
-		}
+		} 
 		return planText;
 	}
-}
+} 

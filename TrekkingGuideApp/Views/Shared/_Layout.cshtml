@@ -33,6 +33,13 @@
                             </li>
                         }
 
+                        @if (User.IsInRole("Guide"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Guide" asp-action="SearchPlaces">Guide Tools</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Account" asp-action="Index">My Profile</a>
                         </li>

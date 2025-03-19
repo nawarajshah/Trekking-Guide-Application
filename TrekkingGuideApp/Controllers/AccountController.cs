@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrekkingGuideApp.Models;
@@ -94,7 +95,8 @@ namespace TrekkingGuideApp.Controllers
                 var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("NgApp", "Home");
+                    //return RedirectToAction("NgApp", "Home");
                 }
                 else
                 {
@@ -104,6 +106,7 @@ namespace TrekkingGuideApp.Controllers
             }
             return View(model);
         }
+
 
         public IActionResult Register()
         {

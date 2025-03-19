@@ -1,0 +1,78 @@
+<div class="row">
+    <!-- Let: User Details Form -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>User Details</h4>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input [(ngModel)]="userForm.email" 
+                            class="form-control"
+                            [disabled]="isFormDisabled"
+                            name="email" readonly />
+                    </div>
+                    <div class="mb-3">
+                        <label>Selected Role</label>
+                        <select class="form-control"
+                            [(ngModel)]="userForm.selectedRole"
+                            name="selectedRole"
+                            [disabled]="isFormDisabled">
+                            <option value="">-- Select Role --</option>
+                            <option *ngFor="let role of userForm.availableRoles" [value]="role">
+                                {{ role }}
+                            </option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary me-2 btn-sm"
+                        type="button"
+                        [disabled]="isFormDisabled"
+                        (click)="updateUser()">
+                        Update
+                    </button>
+                    <button class="btn btn-danger me-2 btn-sm"
+                        type="button"
+                        [disabled]="isFormDisabled"
+                        (click)="deleteUser()">
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+     <!-- Right: User Management List -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>User Management</h4>
+            </div>
+            <div class="card-body p-0">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of userList">
+                            <td style="align-content: center;">{{ user.email }}</td>
+                            <td style="align-content: center;">{{ user.roles.join(', ') }}</td>
+                            <td>
+                                <button class="btn btn-sm"
+                                    (click)="selectUser(user.userId)"
+                                    [ngClass]="userForm.email === user.email ? 'btn-primary' : 'btn-secondary'">
+                                    Select
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

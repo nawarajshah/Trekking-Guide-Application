@@ -8,7 +8,6 @@ using TrekkingGuideApp.ViewModels;
 
 namespace TrekkingGuideApp.Controllers
 {
-    [Authorize(Roles = "Admin, SuperAdmin")]
     public class PlaceController : Controller
     {
         private readonly AppDbContext _context;
@@ -20,6 +19,7 @@ namespace TrekkingGuideApp.Controllers
             _context = context; 
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // GET: /Place/
         public async Task<IActionResult> Index()
         {
@@ -27,12 +27,14 @@ namespace TrekkingGuideApp.Controllers
             return View(places);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // GET: /Place/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // POST: /Place/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -42,17 +44,17 @@ namespace TrekkingGuideApp.Controllers
             {
                 string uniqueFileName = null;
                 // handle file upload
-                if (model.PhotoPath != null)
+                if (model.Photo != null)
                 {
                     //string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "images", "places");
                     if (!Directory.Exists(_imageFolder))
                         Directory.CreateDirectory(_imageFolder);
 
-                    uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.PhotoPath.FileName);
+                    uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.Photo.FileName);
                     string filePath = Path.Combine(_imageFolder, uniqueFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
-                        await model.PhotoPath.CopyToAsync(fileStream);
+                        await model.Photo.CopyToAsync(fileStream);
                     }
                 }
 
@@ -71,6 +73,7 @@ namespace TrekkingGuideApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // GET: /place/edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -92,6 +95,7 @@ namespace TrekkingGuideApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // POST: /place/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -112,7 +116,7 @@ namespace TrekkingGuideApp.Controllers
                     place.Description = model.Description;
 
                     // check if a new photo was uploaded
-                    if (model.PhotoPath != null)
+                    if (model.Photo != null)
                     {
                         // delete the existing photo if it exists
                         if (!string.IsNullOrEmpty(model.ExistingPhotoPath))
@@ -123,11 +127,11 @@ namespace TrekkingGuideApp.Controllers
                         }
 
                         //string uploadFolder = Path.Combine(_imageFolder, "images", "places");
-                        string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.PhotoPath.FileName);
+                        string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.Photo.FileName);
                         string filePath = Path.Combine(_imageFolder, uniqueFileName);
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {
-                            await model.PhotoPath.CopyToAsync(fileStream);
+                            await model.Photo.CopyToAsync(fileStream);
                         }
                         place.PhotoPath = uniqueFileName;
                     }
@@ -161,24 +165,14 @@ namespace TrekkingGuideApp.Controllers
             if (decoded.Length == 0) return NotFound();
 
             int placedId = decoded[0];
-            var place = await _context.Places.FirstOrDefaultAsync(p => p.Id == placedId);
+            var place = await _context.Places
+                .Include(p => p.Itineraries)
+                .FirstOrDefaultAsync(p => p.Id == placedId);
             if (place == null) return NotFound();
 
             return View(place);
         }
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //        return NotFound();
 
-        //    var place = await _context.Places.FirstOrDefaultAsync(p => p.Id == id);
-        //    if (place == null)
-        //        return NotFound();
-
-        //    return View(place);
-        //}
-
-        // this action will serve images from the D:\Image\Places folder
         [HttpGet]
         public IActionResult GetImage(string fileName)
         {
@@ -207,6 +201,26 @@ namespace TrekkingGuideApp.Controllers
                 default:
                     return "application/octet-stream";
             }
+        }
+
+        [Authorize(Roles = "Admin, SuperAdmin")]
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var place = await _context.Places.FindAsync(id);
+            if (place == null) return NotFound();
+
+            // optionally delete the image file if stored outside of wwwroot.
+            if (!string.IsNullOrEmpty(place.PhotoPath))
+            {
+                string filePath = Path.Combine(@"D:\Image\Places", place.PhotoPath);
+                if (System.IO.File.Exists(filePath))
+                    System.IO.File.Delete(filePath);
+            }
+
+            _context.Places.Remove(place);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }

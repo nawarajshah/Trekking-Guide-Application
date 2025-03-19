@@ -1,0 +1,45 @@
+<div class="row">
+    <h2>Available Places</h2>
+    <div class="col-md-4" *ngFor="let place of places">
+        <div class="card mb-4">
+            <img *ngIf="place.photoPath" [src]="placeService.buildImageUrl(place.photoPath)" 
+                [alt]="place.title" class="card-img-top"
+                style="height: 200px; object-fit: cover;" />
+            <div class="card-body">
+                <h5 class="card-title">{{ place.title }}</h5>
+                <p class="card-text" [innerHTML]="truncateHTML(place.description)">
+                    <!-- {{ place.description | truncate: 100 }}... -->
+                </p>
+                <button *ngIf="router.url !== '/'" class="btn btn-primary btn-sm me-2"
+                    [routerLink]="['/places', place.id, 'edit']">
+                    Edit
+                </button>
+                <button *ngIf="router.url !== '/'" class="btn btn-danger btn-sm me-2" 
+                    (click)="deletePlace(place.id)">
+                    Delete
+                </button>
+                <button class="btn btn-sm btn-secondary"
+                    [routerLink]="['/places', place.id, 'details']">
+                    Read More
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-md-4" *ngFor="let place of places">
+        <div class="card mb-4">
+            <img *ngIf="place.photoPath" [src]="buildImageUrl(place.photoPath)"
+                [alt]="place.title" class="card-img-top"
+                style="height: 200px; object-fit: cover;" />
+            <div class="card-body">
+                <h5 class="card-title">{{ place.title }}</h5>
+                <p class="card-text" [innerHTML]="place.description">
+                    {{ place.description | slice:0:100 }}...
+                </p>
+                <button class="btn btn-success btn-sm">Read More</button>
+            </div>
+        </div>
+    </div>
+</div> -->

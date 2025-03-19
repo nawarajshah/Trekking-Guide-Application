@@ -1,0 +1,17 @@
+﻿@model TrekkingGuideApp.ViewModels.ItineraryViewModel
+
+@{
+	ViewData["Title"] = "Add Itinerary";
+}
+
+<h2>Add Itinerary for @Model.PlaceTitle</h2>
+
+<form asp-action="AddItinerary" method="post">
+	<input type="hidden" asp-for="PlaceId" />
+	<div class="form-group">
+		<label asp-for="ItineraryDetails"></label>
+		<textarea asp-for="ItineraryDetails" class="form-control" rows="5"></textarea>
+		<span asp-validation-for="ItineraryDetails" class="text-danger"></span>
+	</div>
+	<button type="submit" class="btn btn-primary btn-sm">Save Itinerary</button>
+</form>

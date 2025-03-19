@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using TrekkingGuideApp.Data;
 using TrekkingGuideApp.Models;
 
@@ -14,6 +15,16 @@ builder.Services.AddControllersWithViews(options =>
 var connString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(connString));
+
+// Add controllers
+builder.Services.AddControllers();
+
+// (Optional) Configure CORS if the Angular app runs on a different port
+//builder.Services.AddCors(options =>
+//{ 
+//    options.AddPolicy("AllowAngular",
+//        policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//});
 
 builder.Services.AddIdentity<Users, IdentityRole>(options =>
 {
@@ -36,6 +47,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 var app = builder.Build();
+
+// (Optional) use the CORS policy
+//app.UseCors("AllowAngular");
 
 // seed the database
 using (var scope = app.Services.CreateScope())
@@ -61,6 +75,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+else
+{
+    app.MapScalarApiReference();
+}
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

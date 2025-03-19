@@ -9,5 +9,8 @@
         /// Stores the relative path to the uploaded image.
         /// </summary>
         public string PhotoPath { get; set; } = string.Empty;
+
+        // Navigation property to related inineraries
+        public ICollection<Itinerary>? Itineraries { get; set; }
     }
 }

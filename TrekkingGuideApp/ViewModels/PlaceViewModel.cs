@@ -14,7 +14,7 @@ namespace TrekkingGuideApp.ViewModels
         public string Description { get; set; } = string.Empty;
 
         // for new photo uploads
-        public IFormFile? PhotoPath { get; set; }
+        public IFormFile? Photo { get; set; }
 
         // for displaying the current photo (on edit)
         public string ExistingPhotoPath { get; set; } = string.Empty;

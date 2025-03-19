@@ -1,0 +1,35 @@
+<div class="container mt-4">
+    <h2>Edit Place</h2>
+    <form (ngSubmit)="updatePlace()" #editForm="ngForm">
+        <div class="mb-3">
+            <label>Title</label>
+            <input type="text" name="title" 
+                class="form-control" [(ngModel)]="place.title" required />
+        </div>
+        <div class="mb-3">
+            <label>Description</label>
+            <editor
+                apiKey="y2fo129225vinfxtuyrulx4ixsedtguywwl72dqp1bsyb5dr"
+                [(ngModel)]="place.description"
+                [init]="init"
+            />
+        </div>
+
+        <div class="mb-3">
+            <label>Current Photo</label><br />
+            <div *ngIf="place.photoPath">
+                <img [src]="placeService.buildImageUrl(place.photoPath)" 
+                    alt="Current" style="max-width: 200px; object-fit: cover;" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label>Upload New Photo</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event)" />
+            <!-- <div class="mt-2" *ngIf="place.photoPath">
+                <img [src]="photoPreview" alt="Preview" style="max-width: 200px; object-fit: cover;" />
+            </div> -->
+        </div>
+        <button class="btn btn-primary" [disabled]="!editForm.valid">Update</button>
+    </form>
+</div>
