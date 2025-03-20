@@ -9,7 +9,7 @@ namespace TrekkingGuideApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin, SuperAdmin")]
+    [Authorize]
     public class PlacesApiController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -39,9 +39,10 @@ namespace TrekkingGuideApp.Controllers
             return Ok(place);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // POST: api/placesapi
         [HttpPost]
-        public async Task<IActionResult> CreatePlace([FromBody] PlaceViewModel model)
+        public async Task<IActionResult> CreatePlace([FromForm] PlaceViewModel model)
         {
             // Photo upload is handled separately or via base64 in dto?
             // for simplicity, let's assume no immediate file upload in this route.
@@ -74,9 +75,10 @@ namespace TrekkingGuideApp.Controllers
             return Ok(place);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // PUT: api/placesapi/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePlace(int id, [FromBody] PlaceViewModel model)
+        public async Task<IActionResult> UpdatePlace(int id, [FromForm] PlaceViewModel model)
         {
             if (id != model.Id) return BadRequest("Id mismatch");
 
@@ -111,6 +113,7 @@ namespace TrekkingGuideApp.Controllers
             return Ok(place);
         }
 
+        [Authorize(Roles = "Admin, SuperAdmin")]
         // DELETE: api/placesapi/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlace(int id)

@@ -11,6 +11,7 @@
             <label>Description</label>
             <editor
                 apiKey="y2fo129225vinfxtuyrulx4ixsedtguywwl72dqp1bsyb5dr"
+                [(ngModel)]="description"
                 [init]="init"
             />
         </div>
@@ -24,6 +25,6 @@
         </div>
 
         <!-- Photo upload would required a seperate approace. for simplicity, skip it or do base64. -->
-         <button type="submit" class="btn btn-success btn-sm" [disabled]="!createForm.valid">Create</button>
+         <button class="btn btn-success btn-sm" [disabled]="!createForm.valid">Create</button>
     </form>
 </div>

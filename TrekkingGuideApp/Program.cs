@@ -19,13 +19,6 @@ options.UseSqlServer(connString));
 // Add controllers
 builder.Services.AddControllers();
 
-// (Optional) Configure CORS if the Angular app runs on a different port
-//builder.Services.AddCors(options =>
-//{ 
-//    options.AddPolicy("AllowAngular",
-//        policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-//});
-
 builder.Services.AddIdentity<Users, IdentityRole>(options =>
 {
     options.Password.RequireNonAlphanumeric = false;
@@ -47,9 +40,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 var app = builder.Build();
-
-// (Optional) use the CORS policy
-//app.UseCors("AllowAngular");
 
 // seed the database
 using (var scope = app.Services.CreateScope())

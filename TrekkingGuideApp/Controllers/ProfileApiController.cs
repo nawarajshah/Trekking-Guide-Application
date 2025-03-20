@@ -19,7 +19,8 @@ namespace TrekkingGuideApp.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("update")]
+        [HttpPost]
+        [Route("update")]
         public async Task<IActionResult> UpdateProfile([FromBody] ManageProfileViewModel model)
         {
             if (!ModelState.IsValid) 
@@ -46,7 +47,8 @@ namespace TrekkingGuideApp.Controllers
         }
 
         // GET: /api/profileapi/roles
-        [HttpGet("roles")]
+        [HttpGet]
+        [Route("roles")]
         public async Task<IActionResult> GetRoles()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -57,7 +59,8 @@ namespace TrekkingGuideApp.Controllers
             return Ok(roles);
         }
 
-        [HttpGet("profile")]
+        [HttpGet]
+        [Route("profile")]
         public async Task<IActionResult> GetProfile()
         {
             var user = await _userManager.GetUserAsync(User);

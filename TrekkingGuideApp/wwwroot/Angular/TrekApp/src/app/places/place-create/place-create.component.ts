@@ -43,7 +43,7 @@ export class PlaceCreateComponent {
 
     this.placeService.createPlace(formData).subscribe({
       next: (createdPlace) => {
-        alert('Place created successfully!');
+        // alert('Place created successfully!');
         this.router.navigate(['/places']);
       },
       error: (err) => {

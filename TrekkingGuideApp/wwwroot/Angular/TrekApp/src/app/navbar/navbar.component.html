@@ -3,10 +3,10 @@
         <a class="navbar-brand" href="#">TrekkingGuideApp</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item" *ngIf="roles.includes('Admin') || roles.includes('SuperAdmin')">
+                <li class="nav-item" *ngIf="hasAdminAccess()">
                     <a routerLink="/places" class="nav-link">Places</a>
                 </li>
-                <li class="nav-item" *ngIf="roles.includes('Admin') || roles.includes('SuperAdmin')">
+                <li class="nav-item" *ngIf="hasAdminAccess()">
                     <a routerLink="/user-management" class="nav-link">User Management</a>
                 </li>
                 <li class="nav-item">

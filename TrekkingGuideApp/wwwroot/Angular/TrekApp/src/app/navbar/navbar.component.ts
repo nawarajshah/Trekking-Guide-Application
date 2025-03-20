@@ -18,15 +18,24 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     // fetch the current user's roles from the api
-    this.profileService.getUserRoles().subscribe({
-      next: (r: string[]) => {
-        this.roles = r;
-      },
-      error: (err) => {
-        console.log('Error fetching roles', err);
-        this.roles = []; // fallback to empty array
-      }
+    this.http.get<string[]>('/api/profileapi/roles').subscribe({
+      next: (data) => this.roles = data,
+      error: (err) => console.error('Error fetching roles', err)
     });
+    // this.profileService.getUserRoles().subscribe({
+    //   next: (r: string[]) => {
+    //     this.roles = r;
+    //   },
+    //   error: (err) => {
+    //     console.log('Error fetching roles', err);
+    //     this.roles = []; // fallback to empty array
+    //   }
+    // });
+  }
+
+  hasAdminAccess(): boolean {
+    // only allow access to places and user management if the user is admin or superadmin
+    return this.roles.some(r => r === 'Admin' || r === 'SuperAdmin');
   }
 
   logout() {
