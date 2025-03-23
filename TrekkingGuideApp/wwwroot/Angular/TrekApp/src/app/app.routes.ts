@@ -7,6 +7,12 @@ import { PlaceCreateComponent } from './places/place-create/place-create.compone
 import { PlaceDetailsComponent } from './places/place-details/place-details.component';
 import { PlaceEditComponent } from './places/place-edit/place-edit.component';
 import { AuthGuard } from './auth.guard';
+import { ItineraryComponent } from './guide/itinerary/itinerary.component';
+import { AddEditItineraryComponent } from './guide/add-edit-itinerary/add-edit-itinerary.component';
+import { GuideItineraryListComponent } from './guide/guide-itinerary-list/guide-itinerary-list.component';
+import { GuideItineraryDetailsComponent } from './guide/guide-itinerary-details/guide-itinerary-details.component';
+import { MyRequestsComponent } from './guide/my-requests/my-requests.component';
+import { GuideRequestsComponent } from './guide/guide-requests/guide-requests.component';
 
 export const routes: Routes = [
     { 
@@ -38,18 +44,60 @@ export const routes: Routes = [
         title: 'Create Place' 
     },
     { 
-        path: 'places/:id/edit', 
+        path: 'places/edit/:id', 
         component: PlaceEditComponent, 
         canActivate: [AuthGuard], 
         data: { roles: ['Admin', 'SuperAdmin'] }, 
         title: 'Edit Place' 
     },
     { 
-        path: 'places/:id/details', 
+        path: 'places/details/:id', 
         component: PlaceDetailsComponent, 
         canActivate: [AuthGuard], 
         data: { roles: ['User', 'Guide', 'Admin', 'SuperAdmin'] }, 
         title: 'Place Details' 
+    },
+    {
+        path: 'guide/itinerary',
+        component: ItineraryComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Guide'] },
+        title: 'Itinerary Page'
+    },
+    {
+        path: 'guide/addedditinerary',
+        component: AddEditItineraryComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Guide'] },
+        title: 'Add Edit Itinerary'
+    },
+    {
+        path: 'guide/guide-itineraries',
+        component: GuideItineraryListComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['User'] },
+        title: 'Chose Guide'
+    },
+    {
+        path: 'guide/guide-itinerary-details/:id',
+        component: GuideItineraryDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['User'] },
+        title: 'Itinerary Details'
+    },
+    {
+        path: 'my-requests',
+        component: MyRequestsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['User'] },
+        title: 'My Requests'
+    },
+    {
+        path: 'guide-requests',
+        component: GuideRequestsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['Guide'] },
+        title: 'Guide Requests'
     },
     { 
         path: 'manage-profile', 
@@ -58,5 +106,4 @@ export const routes: Routes = [
         data: { roles: ['User', 'Guide', 'Admin', 'SuperAdmin'] }, 
         title: 'Manage Profile' 
     }
-    // {path: 'test',component: TrekListingComponent,title: 'Home page', pathMatch: 'full'},
 ];

@@ -1,0 +1,25 @@
+<div class="container mt-4">
+    <h2>My Requests</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Place</th>
+                    <th>Cost</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>Requested On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let req of requests">
+                    <td>{{ req.itinerary.place.title }}</td>
+                    <td>{{ req.itinerary.cost | currency:'Rs.' }}</td>
+                    <td>{{ req.itinerary.duration }}</td>
+                    <td>{{ req.status }}</td>
+                    <td>{{ req.createdDate | date:'short' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

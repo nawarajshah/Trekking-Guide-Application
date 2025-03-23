@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditUserRolesDto, UserManagementService, UserRolesDto } from '../service/user-management.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone: true,
@@ -21,7 +22,10 @@ export class UserManagementComponent implements OnInit {
   // Flags for enabling/disabling buttons
   isFormDisabled = true;
 
-  constructor(private userService: UserManagementService) {}
+  constructor(
+    private userService: UserManagementService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.loadUserList();
@@ -45,6 +49,7 @@ export class UserManagementComponent implements OnInit {
     if (!this.userForm.userId) return;
     this.userService.editUserRole(this.userForm).subscribe((updatedList) => {
       this.userList = updatedList;
+      this.toastr.success('Role updated to ' + this.userForm.selectedRole);
       // clear the form
       this.clearForm();
     });
@@ -57,6 +62,7 @@ export class UserManagementComponent implements OnInit {
     this.userService.deleteUser(this.userForm.userId).subscribe((updatedList) => {
       this.userList = updatedList;
       this.clearForm();
+      this.toastr.success(this.userForm.email + ' has been deleted.');
     });
   }
 

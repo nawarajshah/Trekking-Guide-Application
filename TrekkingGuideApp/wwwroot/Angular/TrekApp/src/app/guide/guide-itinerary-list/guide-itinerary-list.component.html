@@ -1,0 +1,47 @@
+<div class="container">
+    <h2>Guide Itineraries</h2>
+
+    <div class="mb-3">
+        <form (submit)="searchItineraries()">
+            <div class="container">
+                <div class="row">
+                    <div class="col-10">
+                        <input type="text" placeholder="Search by Place Title" 
+                            [(ngModel)]="searchQuery" class="form-control">
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary mt-2 btn-sm">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4" *ngFor="let itin of itineraries">
+            <div class="card mb-4">
+                <img *ngIf="itin.place.photoPath"
+                    [src]="placeService.buildImageUrl(itin.place.photoPath)"
+                    class="card-img-top" [alt]="itin.place.title"
+                    style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ itin.place.title }}</h5>
+                    <p class="card-text">
+                        Cost: {{ itin.cost | currency }}<br>
+                        Duration: {{ itin.duration }}<br>
+                    </p>
+                    <button class="btn btn-primary btn-sm me-2"
+                        [routerLink]="['../guide-itinerary-details', itin.id]">
+                        Show Itinerary
+                    </button>
+                    <button class="btn btn-secondary btn-sm me-2"
+                        [routerLink]="['../../places', 'details', itin.place.id]">
+                        Visit Place
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

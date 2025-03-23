@@ -1,13 +1,33 @@
-<nav class="navbar navbar-expand-lg navbar-custom">
+<nav class="navbar navbar-expand-lg navbar-custom navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">TrekkingGuideApp</a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
+        <a class="navbar-brand" routerLink="/">TrekkingGuideApp</a>
+        <button class="navbar-toggler" type="button" 
+            (click)="isCollapsed = !isCollapsed"
+            [attr.aria-expanded]="!isCollapsed"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" 
+            [ngbCollapse]="isCollapsed" id="navbarNav">
+            <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                 <li class="nav-item" *ngIf="hasAdminAccess()">
                     <a routerLink="/places" class="nav-link">Places</a>
                 </li>
                 <li class="nav-item" *ngIf="hasAdminAccess()">
                     <a routerLink="/user-management" class="nav-link">User Management</a>
+                </li>
+                <li class="nav-item" *ngIf="hasGuideAccess()">
+                    <a routerLink="/guide/itinerary" class="nav-link">Itinerary Page</a>
+                </li>
+                <li class="nav-item" *ngIf="hasUserAccess()">
+                    <a routerLink="/guide/guide-itineraries" class="nav-link">Guide</a>
+                </li>
+                <li class="nav-item" *ngIf="hasGuideAccess()">
+                    <a routerLink="/guide-requests" class="nav-link">Guide Requests</a>
+                </li>
+                <li class="nav-item" *ngIf="hasUserAccess()">
+                    <a routerLink="/my-requests" class="nav-link">My Requests</a>
                 </li>
                 <li class="nav-item">
                     <a routerLink="/manage-profile" class="nav-link">Profile</a>

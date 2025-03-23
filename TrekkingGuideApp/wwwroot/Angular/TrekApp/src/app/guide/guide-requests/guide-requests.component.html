@@ -1,0 +1,38 @@
+<div class="container mt-4">
+    <h4>Requests for My Itinerasies</h4>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>User</td>
+                    <td>Place</td>
+                    <td>Cost</td>
+                    <td>Duration</td>
+                    <td>Status</td>
+                    <td>Requested</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let req of requests">
+                    <td>{{ req.userId }}</td>
+                    <td>{{ req.itinerary.place.title }}</td>
+                    <td>{{ req.itinerary.cost | currency:'Rs.' }}</td>
+                    <td>{{ req.itinerary.duration }}</td>
+                    <td>{{ req.status }}</td>
+                    <td>{{ req.createdDate | date:'short' }}</td>
+                    <td>
+                        <button class="bnt btn-sm btn-success me-1" 
+                            *ngIf="req.status == 'Pending'" (click)="accept(req.id)">
+                            Accept
+                        </button>
+                        <button class="bnt btn-sm btn-danger" 
+                            *ngIf="req.status == 'Pending'" (click)="reject(req.id)">
+                            Reject
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

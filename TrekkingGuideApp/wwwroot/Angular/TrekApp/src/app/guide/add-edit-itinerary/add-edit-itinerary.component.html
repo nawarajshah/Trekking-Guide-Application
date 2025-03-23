@@ -1,0 +1,24 @@
+<div class="container mt-4">
+    <h2>{{ isEditMode ? 'Edit' : 'Add' }} Itinerary of {{ model.placeTitle }}</h2>
+    <form (ngSubmit)="saveItinerary(isEditMode)" #itineraryForm="ngForm">
+        <div class="mb-3">
+            <label for="cost">Cost</label>
+            <input type="number" name="cost" id="cost" 
+                class="form-control" [(ngModel)]="model.cost" required>
+        </div>
+        <div class="mb-3">
+            <label for="duration">Duration</label>
+            <input type="text" name="duration" 
+                class="form-control" id="duration"
+                [(ngModel)]="model.duration" required>
+        </div>
+        <div class="mb-3">
+            <label for="description">Itinerary Description</label>
+            <textarea name="description" class="form-control" 
+                id="description" [(ngModel)]="model.description" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!itineraryForm.valid">
+            {{ isEditMode ? 'Update' : 'Create' }} Itinerary
+        </button>
+    </form>
+</div>

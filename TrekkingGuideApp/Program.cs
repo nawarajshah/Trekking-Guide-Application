@@ -17,7 +17,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(connString));
 
 // Add controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opts =>
+    {
+        opts.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        opts.JsonSerializerOptions.WriteIndented = true;
+    });
 
 builder.Services.AddIdentity<Users, IdentityRole>(options =>
 {

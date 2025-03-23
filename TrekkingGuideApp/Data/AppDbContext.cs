@@ -12,6 +12,7 @@ namespace TrekkingGuideApp.Data
 
         public DbSet<Place> Places { get; set; }
         public DbSet<Itinerary> Itineraries { get; set; }
+        public DbSet<Request> Requests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

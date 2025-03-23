@@ -1,7 +1,13 @@
 <div class="container mt-4" *ngIf="place">
     <h2>{{ place.title }}</h2>
     <hr />
-    <img *ngIf="place.photoPath" [src]="getPhotoUrl()" alt="{{ place.title }}"
-        style="max-width: 600px; object-fit: cover;" class="mb-3" />
-    <div [innerHTML]="place.description"></div>
+
+    <!-- Display Place Image If available -->
+    <div *ngIf="place.photoPath">
+        <img [src]="placeService.buildImageUrl(place.photoPath)" alt="{{ place.title }}"
+            style="object-fit: cover;" class="img-fluid mb-3" />
+    </div>
+
+    <!-- Display place description (as HTML) -->
+    <div class="blog-content" [innerHTML]="place.description"></div>
 </div>

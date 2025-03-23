@@ -49,7 +49,7 @@ namespace TrekkingGuideApp.Controllers
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            string uniqueFileName = null;
+            string? uniqueFileName = null;
             if (model.Photo != null)
             {
                 // ensure folder exists

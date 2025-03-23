@@ -163,18 +163,26 @@ namespace TrekkingGuideApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("NUMERIC");
+
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("TripDuration");
 
                     b.Property<string>("GuideId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ItineraryDetails")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PlaceId")
+                    b.Property<int?>("PlaceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -207,6 +215,35 @@ namespace TrekkingGuideApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Places");
+                });
+
+            modelBuilder.Entity("TrekkingGuideApp.Models.Request", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ItineraryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItineraryId");
+
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("TrekkingGuideApp.Models.Users", b =>
@@ -342,11 +379,20 @@ namespace TrekkingGuideApp.Migrations
                 {
                     b.HasOne("TrekkingGuideApp.Models.Place", "Place")
                         .WithMany("Itineraries")
-                        .HasForeignKey("PlaceId")
+                        .HasForeignKey("PlaceId");
+
+                    b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("TrekkingGuideApp.Models.Request", b =>
+                {
+                    b.HasOne("TrekkingGuideApp.Models.Itinerary", "Itinerary")
+                        .WithMany()
+                        .HasForeignKey("ItineraryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Place");
+                    b.Navigation("Itinerary");
                 });
 
             modelBuilder.Entity("TrekkingGuideApp.Models.Place", b =>

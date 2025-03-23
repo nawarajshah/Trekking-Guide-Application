@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ManageProfileViewModel, ProfileService } from '../service/profile.service';
-import { Observable } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone: true,
   selector: 'app-manage-profile',
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './manage-profile.component.html',
   styleUrl: './manage-profile.component.css'
 })
@@ -25,7 +24,10 @@ export class ManageProfileComponent implements OnInit {
   successMessage: string = '';
   errorMessage: string = '';
 
-  constructor(private profileService: ProfileService) {}
+  constructor(
+    private profileService: ProfileService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     // fetch the current user's roles from the api
@@ -34,7 +36,7 @@ export class ManageProfileComponent implements OnInit {
         this.model = profile;
       },
       error: (err) => {
-        console.error('Error fetching profile', err);
+        this.toastr.error('Error fetching profile: ' + err, 'Error');
       }
     });
 
@@ -44,7 +46,7 @@ export class ManageProfileComponent implements OnInit {
         this.roles = r;
       },
       error: (err) => {
-        console.error('Error fetching roles', err);
+        this.toastr.error('Error fetching roles: ' + err, 'Error');
         this.roles = [];
       }
     });
@@ -53,12 +55,10 @@ export class ManageProfileComponent implements OnInit {
   updateProfile(): void {
     this.profileService.updateProfile(this.model).subscribe({
       next: (response) => {
-        this.successMessage = response.message;
-        this.errorMessage = '';
+        this.toastr.success(response.message, 'Success');
       },
-      error: (error) => {
-        this.errorMessage = 'Error updating profile';
-        this.successMessage = '';
+      error: (err) => {
+        this.toastr.error('Error fetching profile: ' + err, 'Error');
       }
     });
   }

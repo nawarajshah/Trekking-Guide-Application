@@ -42,7 +42,7 @@ namespace TrekkingGuideApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                string uniqueFileName = null;
+                string? uniqueFileName = null;
                 // handle file upload
                 if (model.Photo != null)
                 {

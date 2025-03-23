@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./navbar/navbar.component";
 
 @Component({
@@ -14,9 +14,7 @@ export class AppComponent {
   title: string = 'TrekApp';
   description: string = 'Hello World';
   isLoaded: boolean = false;
-  constructor(private router: Router){
-
-  }
+  
   ngOnInit(){
     this.isLoaded = false;
   }

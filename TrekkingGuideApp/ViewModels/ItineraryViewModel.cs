@@ -4,9 +4,13 @@ namespace TrekkingGuideApp.ViewModels
 {
     public class ItineraryViewModel
     {
+        [Required]
         public int PlaceId { get; set; }
-        public string PlaceTitle { get; set; } = string.Empty;
-        [Required(ErrorMessage = "Please enter the itinerary details.")]
-        public string ItineraryDetails { get; set; } = string.Empty;
+        [Required]
+        public decimal Cost { get; set; }
+        [Required]
+        public string Duration { get; set; }
+        [Required]
+        public string Description { get; set; }
     }
 }

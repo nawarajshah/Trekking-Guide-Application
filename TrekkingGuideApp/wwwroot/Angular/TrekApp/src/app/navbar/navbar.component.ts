@@ -1,20 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ProfileService } from '../service/profile.service';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, NgbCollapseModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit {
+  isCollapsed = true;
   
   roles: string[] = [];
 
-  constructor(private profileService: ProfileService, private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     // fetch the current user's roles from the api
@@ -22,15 +27,6 @@ export class NavbarComponent implements OnInit {
       next: (data) => this.roles = data,
       error: (err) => console.error('Error fetching roles', err)
     });
-    // this.profileService.getUserRoles().subscribe({
-    //   next: (r: string[]) => {
-    //     this.roles = r;
-    //   },
-    //   error: (err) => {
-    //     console.log('Error fetching roles', err);
-    //     this.roles = []; // fallback to empty array
-    //   }
-    // });
   }
 
   hasAdminAccess(): boolean {
@@ -38,12 +34,25 @@ export class NavbarComponent implements OnInit {
     return this.roles.some(r => r === 'Admin' || r === 'SuperAdmin');
   }
 
+  hasGuideAccess(): boolean {
+    // only allow access to places and user management if the user is Guide
+    return this.roles.some(r => r === 'Guide');
+  }
+
+  hasUserAccess(): boolean {
+    // only allow access to places and user management if the user is User
+    return this.roles.some(r => r === 'User');
+  }
+
   logout() {
     this.http.post('/api/account/logout', {}).subscribe({
       next: () => {
         window.location.href = '/Account/Login';
       },
-      error: (err) => console.error('Logout error', err)
+      error: (err) => {
+        this.toastr.error('Error during logout', 'Error');
+        console.error('Logout error: ', err);
+      }
     });
   }
 }

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { EditorComponent } from '@tinymce/tinymce-angular';
 import { Place, PlacesService } from '../../service/places.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-place-edit',
@@ -24,7 +25,8 @@ export class PlaceEditComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public placeService: PlacesService
+    public placeService: PlacesService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -53,12 +55,12 @@ export class PlaceEditComponent implements OnInit {
     }
 
     this.placeService.updatePlace(this.place.id, formData).subscribe({
-      next: (updated) => {
-        alert('Place updated!');
+      next: () => {
+        this.toastr.success('Place Updated!');
         this.router.navigate(['/places']);
       },
       error: (err) => {
-        alert('Error updating place');
+        this.toastr.error('Error updating place!');
         console.error(err);
       }
     });

@@ -12,8 +12,8 @@ using TrekkingGuideApp.Data;
 namespace TrekkingGuideApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250315021944_AddItineraryEntity")]
-    partial class AddItineraryEntity
+    [Migration("20250323070631_MakePlaceIdNullable")]
+    partial class MakePlaceIdNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -166,18 +166,26 @@ namespace TrekkingGuideApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("NUMERIC");
+
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("TripDuration");
 
                     b.Property<string>("GuideId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ItineraryDetails")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PlaceId")
+                    b.Property<int?>("PlaceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -345,9 +353,7 @@ namespace TrekkingGuideApp.Migrations
                 {
                     b.HasOne("TrekkingGuideApp.Models.Place", "Place")
                         .WithMany("Itineraries")
-                        .HasForeignKey("PlaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlaceId");
 
                     b.Navigation("Place");
                 });

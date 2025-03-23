@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { EditorComponent } from '@tinymce/tinymce-angular'
 import { PlacesService } from '../../service/places.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-place-create',
@@ -25,7 +26,11 @@ export class PlaceCreateComponent {
   photoFile?: File;
   photoPreview?: string;
 
-  constructor(private placeService: PlacesService, private router: Router) {}
+  constructor(
+    private placeService: PlacesService,
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
   onFileSelected(event: any) {
     if (event.target.files && event.target.files.length > 0) {
@@ -43,11 +48,11 @@ export class PlaceCreateComponent {
 
     this.placeService.createPlace(formData).subscribe({
       next: (createdPlace) => {
-        // alert('Place created successfully!');
+        this.toastr.success('Place created successfully.');
         this.router.navigate(['/places']);
       },
       error: (err) => {
-        alert('Error creating place');
+        this.toastr.error('Error on creating place.');        
         console.error(err);
       }
     });
