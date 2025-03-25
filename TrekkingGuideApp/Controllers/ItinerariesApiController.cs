@@ -99,19 +99,6 @@ namespace TrekkingGuideApp.Controllers
             return Ok(itineraries);
         }
 
-        // POST: /api/itineraryapi/request
-        // simulate sending a request to the guide for a given itinerary.
-        [HttpPost]
-        [Route("request")]
-        public async Task<IActionResult> RequestItinerary([FromQuery] int itineraryId)
-        {
-            var itinerary = await _context.Itineraries.FindAsync(itineraryId);
-            if (itinerary == null)
-                return NotFound("Itinerary not found.");
-
-            return Ok(new { message = "Request sent to the guide successfully!" });
-        }
-
         // POST: api/itineraries
         // this endpoint creates a new itineraries for a given place.
         [HttpPost]

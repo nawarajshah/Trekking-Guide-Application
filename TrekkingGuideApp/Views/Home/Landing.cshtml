@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Welcome to trekkingGuideApp";
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+}
+
+<nav class="navbar navbar-expand-lg navbar-custom navbar-dark bg-teal">
+    <div class="container">
+        <a class="navbar-brand" href="#">TrekkingGuideApp</a>
+        <button class="navbar-toggler" style="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/Account/Login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Account/Register">Register</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="hero d-flex align-items-center">
+    <div class="container text-center hero-text">
+        <h1 class="display-4">Welcome to TrekkingGuideApp</h1>
+        <p class="lead">Discover breathtaking trekking destination and connect with expert guides.</p>
+        <a href="/Account/Register" class="btn btn-primary btn-lg">Get Started</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Features</h2>
+    <div class="row text-center">
+        <div class="col-md-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h3 class="card-title">Discover Places</h3>
+                    <p class="card-text">Explore a curated list of trekking destinations from around the world.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h3 class="card-title">Expert Guides</h3>
+                    <p class="card-text">Connect with knowledgeable guides to plan your perfect trek.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <h3 class="card-title">Plan Your Journey</h3>
+                    <p class="card-text">Create custom itineraries and request guide support for your advantures.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

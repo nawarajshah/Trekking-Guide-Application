@@ -5,7 +5,7 @@
         </div>
         <div class="card-body">
             <img [src]="placeService.buildImageUrl(itinerary.place.photoPath)" 
-                [alt]="itinerary.place.title" class="img-fluid mb-3"
+                [alt]="itinerary.place.title" class="img-thumbnail img-fluid mb-3"
                 *ngIf="itinerary.place.photoPath"
                 style="max-height: 300px; object-fit: cover;">
             <p>Cost: {{ itinerary.cost | currency: 'Rs.' }}</p>

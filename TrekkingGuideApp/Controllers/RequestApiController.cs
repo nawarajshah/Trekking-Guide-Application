@@ -44,6 +44,7 @@ namespace TrekkingGuideApp.Controllers
             var request = new Request
             {
                 UserId = user.Id,
+                UserName = user.FullName,
                 ItineraryId = itineraryId,
                 Status = "Pending",
                 CreatedDate = DateTime.Now
@@ -70,7 +71,19 @@ namespace TrekkingGuideApp.Controllers
                 .Include(r => r.Itinerary)
                 .ThenInclude(i => i.Place)
                 .Where(r => r.UserId == user.Id)
-                .OrderByDescending(r => r.CreatedDate)
+                .Select(r => new Request
+                {
+                    Id = r.Id,
+                    UserId = user.Id,
+                    UserName = _context.Users
+                                .Where(u => u.Id == r.UserId)
+                                .Select(u => u.FullName)
+                                .FirstOrDefault(),
+                    ItineraryId = r.ItineraryId,
+                    Status = r.Status,
+                    CreatedDate = r.CreatedDate,
+                    Itinerary = r.Itinerary
+                })
                 .ToListAsync();
 
             return Ok(request);

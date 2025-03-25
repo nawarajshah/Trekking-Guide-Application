@@ -15,18 +15,18 @@
             </thead>
             <tbody>
                 <tr *ngFor="let req of requests">
-                    <td>{{ req.userId }}</td>
+                    <td>{{ req.userName }}</td>
                     <td>{{ req.itinerary.place.title }}</td>
                     <td>{{ req.itinerary.cost | currency:'Rs.' }}</td>
                     <td>{{ req.itinerary.duration }}</td>
                     <td>{{ req.status }}</td>
                     <td>{{ req.createdDate | date:'short' }}</td>
                     <td>
-                        <button class="bnt btn-sm btn-success me-1" 
+                        <button class="btn btn-sm btn-success me-1" 
                             *ngIf="req.status == 'Pending'" (click)="accept(req.id)">
                             Accept
                         </button>
-                        <button class="bnt btn-sm btn-danger" 
+                        <button class="btn btn-sm btn-danger" 
                             *ngIf="req.status == 'Pending'" (click)="reject(req.id)">
                             Reject
                         </button>

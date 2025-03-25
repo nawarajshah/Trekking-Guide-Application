@@ -24,12 +24,12 @@
             <div class="card mb-4">
                 <img *ngIf="itin.place.photoPath"
                     [src]="placeService.buildImageUrl(itin.place.photoPath)"
-                    class="card-img-top" [alt]="itin.place.title"
+                    class="img-thumbnail card-img-top" [alt]="itin.place.title"
                     style="height: 200px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ itin.place.title }}</h5>
                     <p class="card-text">
-                        Cost: {{ itin.cost | currency }}<br>
+                        Cost: {{ itin.cost | currency:'Rs.' }}<br>
                         Duration: {{ itin.duration }}<br>
                     </p>
                     <button class="btn btn-primary btn-sm me-2"

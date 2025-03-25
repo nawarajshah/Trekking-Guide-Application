@@ -34,5 +34,10 @@ namespace TrekkingGuideApp.Controllers
         {
             return View();
         }
+
+        public IActionResult Landing() 
+        { 
+            return View();
+        }
     }
 }

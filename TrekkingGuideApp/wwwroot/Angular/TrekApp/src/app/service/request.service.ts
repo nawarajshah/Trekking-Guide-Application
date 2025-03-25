@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 export interface Request {
     id: number;
     userId: string;
+    userName: string;
     itineraryId: number;
     status: string;
     createdDate: string;

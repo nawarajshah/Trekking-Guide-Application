@@ -61,8 +61,4 @@ export class ItineraryService {
     searchItineraries(title: string): Observable<Itinerary[]> {
         return this.http.get<Itinerary[]>(`${this.baseUrl}/search?title=${title}`);
     }
-
-    requestItinerary(itineraryId: number): Observable<any> {
-        return this.http.post<any>(`${this.baseUrl}/request?itineraryId=${itineraryId}`, {});
-    }
 }

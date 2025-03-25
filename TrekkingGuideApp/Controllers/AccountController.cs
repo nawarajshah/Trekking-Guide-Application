@@ -148,11 +148,6 @@ namespace TrekkingGuideApp.Controllers
             return View(model);
         }
 
-        public IActionResult VerifyEmail()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();

@@ -78,3 +78,9 @@ body {
 .navbar-custom .navbar-nav .nav-link:hover {
   color: #dddddd !important;
 }
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: all o.3s ease-in-out;
+}
